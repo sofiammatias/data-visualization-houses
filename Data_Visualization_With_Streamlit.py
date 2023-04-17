@@ -2,8 +2,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import pydeck as pdk
-#import requests
-#import urllib.parse
+import os
+import matplotlib.pyplot as plt
 
 st.set_page_config(
     page_title="Data Visualization With Streamlit",
@@ -15,7 +15,10 @@ url = 'https://loft.com.br/venda/imoveis/sp/sao-paulo/jardim-america_sao-paulo_s
 
 st.title ('Houses for Sale in Jardim América, São Paulo, Brasil')
 st.info('Download a "houses_df.csv" file using the upload button on the sidebar.')
+path = './houses_df.csv'
 uploaded_file = st.sidebar.file_uploader("Choose a file 'houses_df.csv'")
+if uploaded_file is None and os.path.exists(path):
+    uploaded_file = path
 if uploaded_file is not None:
     # Can be used wherever a "file-like" object is accepted:
     df = pd.read_csv(uploaded_file)
@@ -71,17 +74,17 @@ if uploaded_file is not None:
                  initial_view_state = view_state,
                  map_style = 'road', 
                  tooltip={"text": "{name}\n{address}"})
-    st.pydeck_chart(r, use_container_width=True)
 
-    col1, col2, col3 = st.columns(3)
+    col1, col2 = st.columns([1,2])
     with col1:
         st.metric(label="Number of Houses", value = f'{df_nums["Number of Houses"].sum():,}')
-        st.metric(label="Max. House Price", value = f'${df_nums["House Price Max"].max():,}')
-    with col2:
         st.metric(label="Max. Area", value = f'{df_nums["Area Max"].max():,} m2')
+        st.metric(label="Min. Area", value = f'{df_nums["Area Min"].min():,} m2')        
+        st.metric(label="Max. House Price", value = f'${df_nums["House Price Max"].max():,}')
         st.metric(label="Min. House Price", value = f'${df_nums["House Price Min"].min():,}')
-    with col3:
-        st.metric(label="Min. Area", value = f'{df_nums["Area Min"].min():,} m2')
+    with col2:
+        st.pydeck_chart(r, use_container_width = False)
+
 
     tab1, tab2 = st.tabs(["📈 Charts", "🗃 Data"])
 
@@ -92,7 +95,9 @@ if uploaded_file is not None:
         st.bar_chart(df_nums, y = 'House Price per m2', x = 'House Type')
 
     with col2:
-        st.bar_chart(df_nums, y = 'Number of Houses', x = 'House Type')
         st.bar_chart(df_nums, y = 'Area Average', x = 'House Type')
+        plt.pie(df_nums['Number of Houses'], 
+                labels = df_nums['House Type'], autopct='%.0f%%')
+        st.pyplot(plt)
 
     tab2.dataframe(df_nums.set_index('House Type').T)
