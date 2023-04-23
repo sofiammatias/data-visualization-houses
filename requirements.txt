@@ -4,4 +4,4 @@ pandas
 numpy
 bs4
 pydeck
-matplotlib
+matplotlib.pyplot

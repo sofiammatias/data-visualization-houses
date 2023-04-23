@@ -9,7 +9,8 @@ st.set_page_config(page_title="Web Scraping Data",
 
 url = 'https://loft.com.br/venda/imoveis/sp/sao-paulo/jardim-america_sao-paulo_sp'
 
-st.title ('Houses for Sale in Jardim América, São Paulo, Brasil')
+st.title ('Houses for Sale for loft.br')
+st.subheader ('Jardim América, São Paulo, Brasil')
 st.write (f'Web scraping URL: {url}')
 
 if st.button ('Scrape Website'):
