@@ -5,7 +5,7 @@ import re
 from bs4 import BeautifulSoup
 
 st.set_page_config(page_title="Web Scraping Data", 
-                   page_icon="📊")
+                   page_icon="📋")
 
 url = 'https://loft.com.br/venda/imoveis/sp/sao-paulo/jardim-america_sao-paulo_sp'
 
