@@ -1,8 +1,4 @@
 import streamlit as st
-import requests
-import pandas as pd
-import re
-from bs4 import BeautifulSoup
 
 st.set_page_config(page_title="Web Scraping Data", 
                    page_icon="📊")
