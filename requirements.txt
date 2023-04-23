@@ -2,6 +2,6 @@ streamlit
 requests
 pandas
 numpy
+matplotlib
 bs4
 pydeck
-matplotlib.pyplot
