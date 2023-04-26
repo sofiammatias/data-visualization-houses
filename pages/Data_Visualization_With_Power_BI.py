@@ -1,7 +1,6 @@
 import streamlit as st
 
-st.set_page_config(page_title="Data Visualization with Power BI",
-                   page_icon="📊")
+st.set_page_config(page_title="Data Visualization with Power BI", page_icon="📊")
 
 st.title("Houses for Sale for loft.br")
 st.subheader("Jardim América, São Paulo, Brasil")
