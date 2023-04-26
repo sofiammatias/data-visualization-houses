@@ -6,8 +6,8 @@ import pickle
 from bs4.testing import SoupTest, HTMLTreeBuilderSmokeTest
 from bs4.builder import HTMLParserTreeBuilder
 
-class HTMLParserTreeBuilderSmokeTest(SoupTest, HTMLTreeBuilderSmokeTest):
 
+class HTMLParserTreeBuilderSmokeTest(SoupTest, HTMLTreeBuilderSmokeTest):
     @property
     def default_builder(self):
         return HTMLParserTreeBuilder()
@@ -28,5 +28,3 @@ class HTMLParserTreeBuilderSmokeTest(SoupTest, HTMLTreeBuilderSmokeTest):
         dumped = pickle.dumps(tree, 2)
         loaded = pickle.loads(dumped)
         self.assertTrue(isinstance(loaded.builder, type(tree.builder)))
-
-

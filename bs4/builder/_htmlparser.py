@@ -1,8 +1,8 @@
 """Use the HTMLParser library to parse HTML files that aren't too bad."""
 
 __all__ = [
-    'HTMLParserTreeBuilder',
-    ]
+    "HTMLParserTreeBuilder",
+]
 
 from html.parser import HTMLParser
 
@@ -13,6 +13,7 @@ except ImportError as e:
     # thrown in 3.5, we can just define our own class as a placeholder.
     class HTMLParseError(Exception):
         pass
+
 
 import sys
 import warnings
@@ -36,17 +37,18 @@ from bs4.element import (
     Declaration,
     Doctype,
     ProcessingInstruction,
-    )
+)
 from bs4.dammit import EntitySubstitution, UnicodeDammit
 
 from bs4.builder import (
     HTML,
     HTMLTreeBuilder,
     STRICT,
-    )
+)
 
 
-HTMLPARSER = 'html.parser'
+HTMLPARSER = "html.parser"
+
 
 class BeautifulSoupHTMLParser(HTMLParser):
     def handle_starttag(self, name, attrs):
@@ -56,7 +58,7 @@ class BeautifulSoupHTMLParser(HTMLParser):
             # Change None attribute values to the empty string
             # for consistency with the other tree builders.
             if value is None:
-                value = ''
+                value = ""
             attr_dict[key] = value
             attrvalue = '""'
         self.soup.handle_starttag(name, None, None, attr_dict)
@@ -71,10 +73,10 @@ class BeautifulSoupHTMLParser(HTMLParser):
         # XXX workaround for a bug in HTMLParser. Remove this once
         # it's fixed in all supported versions.
         # http://bugs.python.org/issue13633
-        if name.startswith('x'):
-            real_name = int(name.lstrip('x'), 16)
-        elif name.startswith('X'):
-            real_name = int(name.lstrip('X'), 16)
+        if name.startswith("x"):
+            real_name = int(name.lstrip("x"), 16)
+        elif name.startswith("X"):
+            real_name = int(name.lstrip("X"), 16)
         else:
             real_name = int(name)
 
@@ -101,17 +103,17 @@ class BeautifulSoupHTMLParser(HTMLParser):
     def handle_decl(self, data):
         self.soup.endData()
         if data.startswith("DOCTYPE "):
-            data = data[len("DOCTYPE "):]
-        elif data == 'DOCTYPE':
+            data = data[len("DOCTYPE ") :]
+        elif data == "DOCTYPE":
             # i.e. "<!DOCTYPE>"
-            data = ''
+            data = ""
         self.soup.handle_data(data)
         self.soup.endData(Doctype)
 
     def unknown_decl(self, data):
-        if data.upper().startswith('CDATA['):
+        if data.upper().startswith("CDATA["):
             cls = CData
-            data = data[len('CDATA['):]
+            data = data[len("CDATA[") :]
         else:
             cls = Declaration
         self.soup.endData()
@@ -133,13 +135,18 @@ class HTMLParserTreeBuilder(HTMLTreeBuilder):
 
     def __init__(self, *args, **kwargs):
         if CONSTRUCTOR_TAKES_STRICT and not CONSTRUCTOR_STRICT_IS_DEPRECATED:
-            kwargs['strict'] = False
+            kwargs["strict"] = False
         if CONSTRUCTOR_TAKES_CONVERT_CHARREFS:
-            kwargs['convert_charrefs'] = False
+            kwargs["convert_charrefs"] = False
         self.parser_args = (args, kwargs)
 
-    def prepare_markup(self, markup, user_specified_encoding=None,
-                       document_declared_encoding=None, exclude_encodings=None):
+    def prepare_markup(
+        self,
+        markup,
+        user_specified_encoding=None,
+        document_declared_encoding=None,
+        exclude_encodings=None,
+    ):
         """
         :return: A 4-tuple (markup, original encoding, encoding
         declared within markup, whether any characters had to be
@@ -150,11 +157,15 @@ class HTMLParserTreeBuilder(HTMLTreeBuilder):
             return
 
         try_encodings = [user_specified_encoding, document_declared_encoding]
-        dammit = UnicodeDammit(markup, try_encodings, is_html=True,
-                               exclude_encodings=exclude_encodings)
-        yield (dammit.markup, dammit.original_encoding,
-               dammit.declared_html_encoding,
-               dammit.contains_replacement_characters)
+        dammit = UnicodeDammit(
+            markup, try_encodings, is_html=True, exclude_encodings=exclude_encodings
+        )
+        yield (
+            dammit.markup,
+            dammit.original_encoding,
+            dammit.declared_html_encoding,
+            dammit.contains_replacement_characters,
+        )
 
     def feed(self, markup):
         args, kwargs = self.parser_args
@@ -163,9 +174,13 @@ class HTMLParserTreeBuilder(HTMLTreeBuilder):
         try:
             parser.feed(markup)
         except HTMLParseError as e:
-            warnings.warn(RuntimeWarning(
-                "Python's built-in HTMLParser cannot parse the given document. This is not a bug in Beautiful Soup. The best solution is to install an external parser (lxml or html5lib), and use Beautiful Soup with that parser. See http://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-a-parser for help."))
+            warnings.warn(
+                RuntimeWarning(
+                    "Python's built-in HTMLParser cannot parse the given document. This is not a bug in Beautiful Soup. The best solution is to install an external parser (lxml or html5lib), and use Beautiful Soup with that parser. See http://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-a-parser for help."
+                )
+            )
             raise e
+
 
 # Patch 3.2 versions of HTMLParser earlier than 3.2.3 to use some
 # 3.2.3 code. This ensures they don't treat markup like <p></p> as a
@@ -174,12 +189,15 @@ class HTMLParserTreeBuilder(HTMLTreeBuilder):
 # XXX This code can be removed once most Python 3 users are on 3.2.3.
 if major == 3 and minor == 2 and not CONSTRUCTOR_TAKES_STRICT:
     import re
+
     attrfind_tolerant = re.compile(
         r'\s*((?<=[\'"\s])[^\s/>][^\s/=>]*)(\s*=+\s*'
-        r'(\'[^\']*\'|"[^"]*"|(?![\'"])[^>\s]*))?')
+        r'(\'[^\']*\'|"[^"]*"|(?![\'"])[^>\s]*))?'
+    )
     HTMLParserTreeBuilder.attrfind_tolerant = attrfind_tolerant
 
-    locatestarttagend = re.compile(r"""
+    locatestarttagend = re.compile(
+        r"""
   <[a-zA-Z][-.a-zA-Z0-9:_]*          # tag name
   (?:\s+                             # whitespace before attribute name
     (?:[a-zA-Z_][-.:a-zA-Z0-9_]*     # attribute name
@@ -192,7 +210,9 @@ if major == 3 and minor == 2 and not CONSTRUCTOR_TAKES_STRICT:
      )
    )*
   \s*                                # trailing whitespace
-""", re.VERBOSE)
+""",
+        re.VERBOSE,
+    )
     BeautifulSoupHTMLParser.locatestarttagend = locatestarttagend
 
     from html.parser import tagfind, attrfind
@@ -207,10 +227,10 @@ if major == 3 and minor == 2 and not CONSTRUCTOR_TAKES_STRICT:
 
         # Now parse the data between i+1 and j into a tag and attrs
         attrs = []
-        match = tagfind.match(rawdata, i+1)
-        assert match, 'unexpected call to parse_starttag()'
+        match = tagfind.match(rawdata, i + 1)
+        assert match, "unexpected call to parse_starttag()"
         k = match.end()
-        self.lasttag = tag = rawdata[i+1:k].lower()
+        self.lasttag = tag = rawdata[i + 1 : k].lower()
         while k < endpos:
             if self.strict:
                 m = attrfind.match(rawdata, k)
@@ -221,8 +241,10 @@ if major == 3 and minor == 2 and not CONSTRUCTOR_TAKES_STRICT:
             attrname, rest, attrvalue = m.group(1, 2, 3)
             if not rest:
                 attrvalue = None
-            elif attrvalue[:1] == '\'' == attrvalue[-1:] or \
-                 attrvalue[:1] == '"' == attrvalue[-1:]:
+            elif (
+                attrvalue[:1] == "'" == attrvalue[-1:]
+                or attrvalue[:1] == '"' == attrvalue[-1:]
+            ):
                 attrvalue = attrvalue[1:-1]
             if attrvalue:
                 attrvalue = self.unescape(attrvalue)
@@ -234,16 +256,16 @@ if major == 3 and minor == 2 and not CONSTRUCTOR_TAKES_STRICT:
             lineno, offset = self.getpos()
             if "\n" in self.__starttag_text:
                 lineno = lineno + self.__starttag_text.count("\n")
-                offset = len(self.__starttag_text) \
-                         - self.__starttag_text.rfind("\n")
+                offset = len(self.__starttag_text) - self.__starttag_text.rfind("\n")
             else:
                 offset = offset + len(self.__starttag_text)
             if self.strict:
-                self.error("junk characters in start tag: %r"
-                           % (rawdata[k:endpos][:20],))
+                self.error(
+                    "junk characters in start tag: %r" % (rawdata[k:endpos][:20],)
+                )
             self.handle_data(rawdata[i:endpos])
             return endpos
-        if end.endswith('/>'):
+        if end.endswith("/>"):
             # XHTML-style empty tag: <span attr="value" />
             self.handle_startendtag(tag, attrs)
         else:
@@ -254,7 +276,7 @@ if major == 3 and minor == 2 and not CONSTRUCTOR_TAKES_STRICT:
 
     def set_cdata_mode(self, elem):
         self.cdata_elem = elem.lower()
-        self.interesting = re.compile(r'</\s*%s\s*>' % self.cdata_elem, re.I)
+        self.interesting = re.compile(r"</\s*%s\s*>" % self.cdata_elem, re.I)
 
     BeautifulSoupHTMLParser.parse_starttag = parse_starttag
     BeautifulSoupHTMLParser.set_cdata_mode = set_cdata_mode
