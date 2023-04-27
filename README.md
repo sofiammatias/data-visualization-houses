@@ -7,8 +7,8 @@ This small project consists in:
 
 - Webscraping the website for houses information
 - Collecting and organizing data
-- Create a static data visualization with Power BI
-- Create a dashboard with Streamlit
+- Create a dashboard with Power BI
+- Create a dashboard with Streamlit (where you can change house type)
 
 Checkout how it all works at [the website app](https://sofiammatias-data-visu-data-visualization-with-streamlit-e6zpc9.streamlit.app/).
 
