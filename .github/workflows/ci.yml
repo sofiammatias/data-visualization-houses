@@ -33,8 +33,9 @@ jobs:
           pip install black mypy
       #- name: Run flake8 - removing flake8 for now
       #  run: flake8
-      - name: Run Mypy
-        run: mypy Data_Visualization_With_Streamlit.py
       - name: Run black
         run:
           black --check .
+      - name: Run Mypy
+        run: mypy Data_Visualization_With_Streamlit.py
+
