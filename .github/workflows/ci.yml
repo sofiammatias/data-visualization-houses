@@ -32,11 +32,13 @@ jobs:
           pip install -r requirements.txt
           pip install black==22.6.0 
           pip install mypy
-      ##- name: Run flake8 - removing flake8 for now
+      #- name: Run flake8 - removing flake8 for now
       #  run: flake8
       - name: Run black
         run:
           black --check .
       - name: Run Mypy
-        run: mypy Data_Visualization_With_Streamlit.py
+        run: |
+          mypy --install-types 
+          mypy Data_Visualization_With_Streamlit.py
 
