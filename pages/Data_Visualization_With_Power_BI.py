@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Data Visualization with Power BI", page_icon="📊")
 
@@ -16,4 +17,4 @@ MjgtZDEwZi00ZWFkLWFmOGMtNzdkZDY4YzMzYWJhIiwid
 CI6ImJjMWIyYjg0LWVmMmItNDMyMy1iYzBlLWMwZTc0Yj
 ExZmU2ZSIsImMiOjl9"""
 
-st.components.v1.iframe(url_pbi_page, width=600, height=900)
+components.iframe(url_pbi_page, width=600, height=900)

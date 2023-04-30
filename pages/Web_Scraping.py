@@ -33,7 +33,8 @@ if st.button("Scrape Website"):
             info_text = info.text
             regex = r"(.*?)R\$ ([\d.,]+)(.*?)m²(\d+)m²?(\d+)"
             matches = re.match(regex, info_text)
-            result = [matches.group(i).strip() for i in range(1, 6)]
+            if matches is not None:
+                result = [matches.group(i).strip() for i in range(1, 6)]
             new_link = info.find(
                 "a", attrs={"class": "MuiButtonBase-root MuiCardActionArea-root jss260"}
             ).get("href")
@@ -49,8 +50,10 @@ if st.button("Scrape Website"):
             pattern = r"-\d+\.\d+"
             match_lat = re.search(pattern, latitude)
             match_lon = re.search(pattern, longitude)
-            lat = float(match_lat.group())
-            lon = float(match_lon.group())
+            if match_lat is not None:
+                lat = float(match_lat.group())
+            if match_lon is not None:
+                lon = float(match_lon.group())
             info_to_df.append(
                 dict(
                     house_links=new_link,
