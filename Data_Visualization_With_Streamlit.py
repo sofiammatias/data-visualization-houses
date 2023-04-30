@@ -1,9 +1,9 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import pydeck as pdk # type: ignore
+import pydeck as pdk  # type: ignore
 import os
-import matplotlib.pyplot as plt # type: ignore
+import matplotlib.pyplot as plt  # type: ignore
 
 st.set_page_config(
     page_title="Data Visualization With Streamlit",
@@ -18,9 +18,9 @@ st.subheader("Jardim América, São Paulo, Brasil")
 st.info('Download a "houses_df.csv" file using the upload button on the sidebar.')
 path = "./houses_df.csv"
 uploaded_file = str(st.sidebar.file_uploader("Choose a file 'houses_df.csv'"))
-if (uploaded_file == 'None') and (os.path.exists(path)):
+if (uploaded_file == "None") and (os.path.exists(path)):
     uploaded_file = path
-if uploaded_file != 'None':
+if uploaded_file != "None":
     # Can be used wherever a "file-like" object is accepted:
     df = pd.read_csv(uploaded_file)
     for col in df.columns:
@@ -41,20 +41,20 @@ if uploaded_file != 'None':
     )
     df_nums = df_nums.groupby("house_type").agg(["mean", "max", "min"]).reset_index()
     df_nums.columns = [
-        'House Type',
-        'House Price Average',
-        'House Price Max',
-        'House Price Min',
-        'Area Average',
-        'Area Max',
-        'Area Min',
-        'Bedrooms Average',
-        'Bedrooms Max',
-        'Bedrooms Min',
-        'Parking Space Average',
-        'Parking Space Max',
-        'Parking Space Min'
-    ] #type: ignore
+        "House Type",
+        "House Price Average",
+        "House Price Max",
+        "House Price Min",
+        "Area Average",
+        "Area Max",
+        "Area Min",
+        "Bedrooms Average",
+        "Bedrooms Max",
+        "Bedrooms Min",
+        "Parking Space Average",
+        "Parking Space Max",
+        "Parking Space Min",
+    ]  # type: ignore
     df_nums["Number of Houses"] = (
         df_selected.groupby("house_type").count().reset_index()["house_links"]
     )
