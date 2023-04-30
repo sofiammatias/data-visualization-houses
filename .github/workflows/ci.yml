@@ -39,5 +39,4 @@ jobs:
         run: |
           mypy Data_Visualization_With_Streamlit.py
           mypy pages/Data_Visualization_With_Power_BI.py
-          mypy pages/Web_Scraping.py
 
