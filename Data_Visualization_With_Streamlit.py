@@ -1,9 +1,9 @@
 import streamlit as st
-import pandas as pd
+import pandas as pd # type: ignore
 import numpy as np
-import pydeck as pdk  # type: ignore
+import pydeck as pdk # type: ignore
 import os
-import matplotlib.pyplot as plt  # type: ignore
+import matplotlib.pyplot as plt # type: ignore
 
 st.set_page_config(
     page_title="Data Visualization With Streamlit",
