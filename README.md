@@ -10,6 +10,6 @@ This small project consists in:
 - Create a dashboard with Power BI
 - Create a dashboard with Streamlit (where you can change house type)
 
-Checkout how it all works at [the website app](https://sofiammatias-data-visu-data-visualization-with-streamlit-e6zpc9.streamlit.app/).
+Checkout how it all works at [the website app](https://data-visualization-houses-loft.streamlit.app/).
 
 <a href="https://sofiammatias-data-visu-data-visualization-with-streamlit-e6zpc9.streamlit.app/"><img width="959" alt="image" src="https://user-images.githubusercontent.com/114782592/232308055-85506955-b109-429a-bb43-5dc417ffacec.png"></a>
