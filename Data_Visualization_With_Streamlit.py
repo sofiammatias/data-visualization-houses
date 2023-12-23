@@ -12,11 +12,10 @@ st.set_page_config(
 
 types = {"latitude": np.float32, "longitude": np.float32}
 url = "https://loft.com.br/venda/imoveis/sp/sao-paulo/jardim-america_sao-paulo_sp"
+path = "./houses_df.csv"
 
 st.title("Houses for Sale for loft.br")
 st.subheader("Jardim América, São Paulo, Brasil")
-st.info('Download a "houses_df.csv" file using the upload button on the sidebar.')
-path = "./houses_df.csv"
 uploaded_file = str(st.sidebar.file_uploader("Choose a file 'houses_df.csv'"))
 if (uploaded_file == "None") and (os.path.exists(path)):
     uploaded_file = path
