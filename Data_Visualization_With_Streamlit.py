@@ -4,6 +4,12 @@ import numpy as np
 import pydeck as pdk  # type: ignore
 import os
 import matplotlib.pyplot as plt  # type: ignore
+from dotenv import load_dotenv # type: ignore
+
+# get url as environment var
+load_dotenv()
+url = str(os.environ.get("URL"))
+path = str(os.environ.get("FILEPATH"))
 
 st.set_page_config(
     page_title="Data Visualization With Streamlit",
@@ -11,28 +17,31 @@ st.set_page_config(
 )
 
 types = {"latitude": np.float32, "longitude": np.float32}
-url = "https://loft.com.br/venda/imoveis/sp/sao-paulo/jardim-america_sao-paulo_sp"
-path = "./houses_df.csv"
 
-st.title("Houses for Sale for loft.br")
+st.title("Houses for Sale for loft.com.br")
 st.subheader("Jardim América, São Paulo, Brasil")
-st.markdown ("""
+st.markdown(
+    """
 This app shows a small demo of data taken by web scraping of a brazilian estate website (loft.br)
-and some data visualization about the data retrieved. \nIn this page, you can see data visualization 
-graphics done with python (package matplotlib) from a default "houses_df.csv" or your own "houses_df.csv
-from your web scraping.""")
+and some data visualization about the data retrieved."""
+)
+st.markdown(
+    """**In this page**, you can see data visualization 
+graphics done with python (package matplotlib) from a default "houses_df_original.csv" or your own "houses_df.csv
+from your web scraping."""
+)
 
-uploaded_file = None
-with st.expander("Upload a file"):
-    uploaded_file = st.file_uploader("")
-if (uploaded_file is None) and (os.path.exists(path)):
+uploaded_file = ''
+with st.expander("Upload your own 'houses_df.csv' file"):
+    uploaded_file = str(st.file_uploader(""))
+if (uploaded_file == '') and (os.path.exists(path)): # ignore
     uploaded_file = path
 if uploaded_file is not None:
     # Can be used wherever a "file-like" object is accepted:
     df = pd.read_csv(uploaded_file)
 if len(df) == 0:
     st.write("No data to visualize")
-else: 
+else:
     for col in df.columns:
         if "Unnamed" in col:
             df = df.drop(columns=col)
@@ -41,7 +50,11 @@ else:
     options = st.multiselect(
         "Select one or more house types:",
         df.house_type.unique(),
-        [df.house_type.unique()[0], df.house_type.unique()[1], df.house_type.unique()[2]],
+        [
+            df.house_type.unique()[0],
+            df.house_type.unique()[1],
+            df.house_type.unique()[2],
+        ],
     )
 
     df_selected = df[df["house_type"].isin(options)]
@@ -137,6 +150,6 @@ else:
         plt.pie(
             df_nums["Number of Houses"], labels=df_nums["House Type"], autopct="%.0f%%"
         )
-        st.pyplot(plt)
+        st.pyplot(plt) # type: ignore[arg-type]
 
     tab2.dataframe(df_nums.set_index("House Type").T)

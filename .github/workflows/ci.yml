@@ -30,7 +30,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install black==22.6.0 
+          pip install black==23.12.1 
           pip install mypy
       - name: Run black
         run:
@@ -38,5 +38,7 @@ jobs:
       - name: Run Mypy
         run: |
           mypy Data_Visualization_With_Streamlit.py
-          mypy pages/Data_Visualization_With_Power_BI.py
+          cd pages
+          mypy Data_Visualization_With_Power_BI.py
+          mypy Web_Scraping.py
 

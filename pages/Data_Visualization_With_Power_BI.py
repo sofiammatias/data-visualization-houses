@@ -3,12 +3,18 @@ import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Data Visualization with Power BI", page_icon="📊")
 
-st.title("Houses for Sale for loft.br")
+st.title("Houses for Sale for loft.com.br")
 st.subheader("Jardim América, São Paulo, Brasil")
-st.markdown ("""
+st.markdown(
+    """
 This app shows a small demo of data taken by web scraping of a brazilian estate website (loft.br)
-and some data visualization about the data retrieved. In this page, you can see data visualization 
-graphics done with Power BI (no live data).""")
+and some data visualization about the data retrieved.
+             """
+)
+st.markdown(
+    """**In this page**, you can see data visualization 
+graphics done with Power BI (no live data)."""
+)
 
 url_pbi_page = """https://app.powerbi.com/view?r=eyJrIjoiMjQ4NzE2
 MjgtZDEwZi00ZWFkLWFmOGMtNzdkZDY4YzMzYWJhIiwid
