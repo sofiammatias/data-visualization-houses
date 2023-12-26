@@ -4,7 +4,7 @@ import numpy as np
 import pydeck as pdk  # type: ignore
 import os
 import matplotlib.pyplot as plt  # type: ignore
-from dotenv import load_dotenv # type: ignore
+from dotenv import load_dotenv  # type: ignore
 
 # get url as environment var
 load_dotenv()
@@ -31,10 +31,10 @@ graphics done with python (package matplotlib) from a default "houses_df_origina
 from your web scraping."""
 )
 
-uploaded_file = ''
+uploaded_file = ""
 with st.expander("Upload your own 'houses_df.csv' file"):
     uploaded_file = str(st.file_uploader(""))
-if (uploaded_file == '') and (os.path.exists(path)): # ignore
+if (uploaded_file == "") and (os.path.exists(path)):  # ignore
     uploaded_file = path
 if uploaded_file is not None:
     # Can be used wherever a "file-like" object is accepted:
@@ -150,6 +150,6 @@ else:
         plt.pie(
             df_nums["Number of Houses"], labels=df_nums["House Type"], autopct="%.0f%%"
         )
-        st.pyplot(plt) # type: ignore[arg-type]
+        st.pyplot(plt)  # type: ignore[arg-type]
 
     tab2.dataframe(df_nums.set_index("House Type").T)

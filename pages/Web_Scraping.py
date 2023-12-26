@@ -1,11 +1,11 @@
 import streamlit as st
-import requests # type: ignore
-import pandas as pd # type: ignore
+import requests  # type: ignore
+import pandas as pd  # type: ignore
 import json
 import os
 import re
 from bs4 import BeautifulSoup  # type: ignore
-from dotenv import load_dotenv # type: ignore
+from dotenv import load_dotenv  # type: ignore
 
 # get url as environment var
 load_dotenv()
@@ -190,4 +190,3 @@ elif stop == True:
 
     st.header("Downloaded data")
     st.dataframe(houses_df)
-
