@@ -8,7 +8,7 @@ This small project consists in:
 - Webscraping the website for houses information
 - Collecting and organizing data
 - Create a dashboard with Power BI
-- Create a dashboard with Streamlit (where you can change house type)
+- Create a dashboard with Python and Streamlit (where you can use your own scraped data)
 
 Checkout how it all works at [the website app](https://data-visualization-houses-loft.streamlit.app/).
 
