@@ -31,12 +31,12 @@ graphics done with python (package matplotlib) from a default "houses_df_origina
 from your web scraping."""
 )
 
-uploaded_file = ""
+uploaded_file = "None"
 with st.expander("Upload your own 'houses_df.csv' file"):
-    uploaded_file = str(st.file_uploader(""))
-if (uploaded_file == "") and (os.path.exists(path)):  # ignore
+    uploaded_file = str(st.file_uploader("Upload file"))
+if (uploaded_file == "None") and (os.path.exists(path)):
     uploaded_file = path
-if uploaded_file is not None:
+if uploaded_file != "None":
     # Can be used wherever a "file-like" object is accepted:
     df = pd.read_csv(uploaded_file)
 if len(df) == 0:
